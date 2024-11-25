@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Icon
@@ -148,10 +149,11 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
         )
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.8f)
-                .background(Color.Red)
-        ) {
+                .size(100.dp, 50.dp) // Width and height for the rectangle
+                .background(Color.Blue)
+                .rotate(rtatView)
+        )
+        {
             Icon(
                 imageVector = Icons.Default.Face,
                 contentDescription = "Face",
