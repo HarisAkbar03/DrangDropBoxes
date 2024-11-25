@@ -32,7 +32,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -53,6 +55,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DragAndDropBoxes(modifier: Modifier = Modifier) {
     var isPlaying by remember { mutableStateOf(true) }
+    var targetOffset by remember { mutableStateOf(IntOffset(200, 300)) }
+
     Column(modifier = Modifier.fillMaxSize()) {
 
         Row(
@@ -121,8 +125,8 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             }
         }
 
-        val targetOffset by animateIntOffsetAsState(
-            targetValue = if (isPlaying) IntOffset(200, 300) else IntOffset(50, 100),
+        val animatedOffset by animateIntOffsetAsState(
+            targetValue = targetOffset,
             animationSpec = tween(durationMillis = 3000, easing = LinearEasing)
         )
 
@@ -138,7 +142,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .size(100.dp)
-                .offset { targetOffset } // Apply horizontal and vertical translation
+                .offset { animatedOffset } // Apply horizontal and vertical translation
                 .background(Color.Green)
                 .rotate(rotationValue), // Rotate the box
             contentAlignment = Alignment.Center
@@ -149,7 +153,17 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .padding(10.dp)
             )
+        }
 
+        // Reset Button
+        Button(
+            onClick = {
+                targetOffset = IntOffset(200, 300)
+                isPlaying = false
+            },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text("Reset")
         }
     }
 }
