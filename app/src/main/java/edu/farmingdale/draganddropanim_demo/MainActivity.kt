@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
 // This should be completed in a group setting
 // ToDo x: Analyze the requirements for Individual Project 3
 // ToDo x: Show the DragAndDropBoxes composable
