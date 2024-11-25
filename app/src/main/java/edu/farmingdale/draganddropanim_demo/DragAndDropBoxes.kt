@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -48,12 +47,9 @@ import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.mimeTypes
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
-//private val rotation = FloatPropKey()
 @Composable
 fun DragAndDropBoxes(modifier: Modifier = Modifier) {
     var isPlaying by remember { mutableStateOf(true) }
@@ -125,7 +121,12 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             }
         }
 
-        val rtatView by animateFloatAsState(
+        val targetOffset by animateIntOffsetAsState(
+            targetValue = if (isPlaying) IntOffset(200, 300) else IntOffset(50, 100),
+            animationSpec = tween(durationMillis = 3000, easing = LinearEasing)
+        )
+
+        val rotationValue by animateFloatAsState(
             targetValue = if (isPlaying) 360f else 0f,
             animationSpec = repeatable(
                 iterations = if (isPlaying) 10 else 1,
@@ -136,17 +137,19 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
 
         Box(
             modifier = Modifier
-                .size(100.dp) // Ensure it has equal width and height for proper rotation
+                .size(100.dp)
+                .offset { targetOffset } // Apply horizontal and vertical translation
                 .background(Color.Green)
-                .rotate(rtatView), // Rotation applied to the box
+                .rotate(rotationValue), // Rotate the box
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Default.Face,
                 contentDescription = "Face",
                 modifier = Modifier
-                    .padding(10.dp) // Adjust the padding inside the rectangle
+                    .padding(10.dp)
             )
+
         }
     }
 }
