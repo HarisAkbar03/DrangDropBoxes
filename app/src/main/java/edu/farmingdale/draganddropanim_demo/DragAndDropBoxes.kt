@@ -54,7 +54,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 //private val rotation = FloatPropKey()
-
 @Composable
 fun DragAndDropBoxes(modifier: Modifier = Modifier) {
     var isPlaying by remember { mutableStateOf(true) }
@@ -101,7 +100,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                         exit = scaleOut() + fadeOut()
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Face, // Replacing "Right" with an icon
+                            imageVector = Icons.Default.Face,
                             contentDescription = "Icon",
                             tint = Color.Red,
                             modifier = Modifier
@@ -126,35 +125,27 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             }
         }
 
-        val pOffset by animateIntOffsetAsState(
-            targetValue = when (isPlaying) {
-                true -> IntOffset(130, 300)
-                false -> IntOffset(130, 100)
-            },
-            animationSpec = tween(3000, easing = LinearEasing)
-        )
-
         val rtatView by animateFloatAsState(
-            targetValue = if (isPlaying) 360f else 0.0f,
+            targetValue = if (isPlaying) 360f else 0f,
             animationSpec = repeatable(
                 iterations = if (isPlaying) 10 else 1,
                 tween(durationMillis = 3000, easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
             )
         )
+
         Box(
             modifier = Modifier
-                .size(100.dp, 50.dp)
-                .background(Color.Blue)
-                .rotate(rtatView)
+                .size(100.dp) // Ensure it has equal width and height for proper rotation
+                .background(Color.Green)
+                .rotate(rtatView), // Rotation applied to the box
+            contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Default.Face,
                 contentDescription = "Face",
                 modifier = Modifier
-                    .padding(10.dp)
-                    .offset(pOffset.x.dp, pOffset.y.dp)
-                    .rotate(rtatView)
+                    .padding(10.dp) // Adjust the padding inside the rectangle
             )
         }
     }
