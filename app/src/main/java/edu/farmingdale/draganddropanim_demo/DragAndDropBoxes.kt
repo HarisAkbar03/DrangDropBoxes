@@ -55,7 +55,6 @@ import androidx.compose.ui.unit.sp
 
 //private val rotation = FloatPropKey()
 
-
 @Composable
 fun DragAndDropBoxes(modifier: Modifier = Modifier) {
     var isPlaying by remember { mutableStateOf(true) }
@@ -101,12 +100,10 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                         enter = scaleIn() + fadeIn(),
                         exit = scaleOut() + fadeOut()
                     ) {
-                        Text(
-                            text = "Right",
-                            fontSize = 40.sp,
-                            color = Color.Red,
-                            fontWeight = FontWeight.Bold,
-
+                        Icon(
+                            imageVector = Icons.Default.Face, // Replacing "Right" with an icon
+                            contentDescription = "Icon",
+                            tint = Color.Red,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .dragAndDropSource {
@@ -129,7 +126,6 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             }
         }
 
-
         val pOffset by animateIntOffsetAsState(
             targetValue = when (isPlaying) {
                 true -> IntOffset(130, 300)
@@ -140,7 +136,6 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
 
         val rtatView by animateFloatAsState(
             targetValue = if (isPlaying) 360f else 0.0f,
-            // Configure the animation duration and easing.
             animationSpec = repeatable(
                 iterations = if (isPlaying) 10 else 1,
                 tween(durationMillis = 3000, easing = LinearEasing),
@@ -149,11 +144,10 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
         )
         Box(
             modifier = Modifier
-                .size(100.dp, 50.dp) // Width and height for the rectangle
+                .size(100.dp, 50.dp)
                 .background(Color.Blue)
                 .rotate(rtatView)
-        )
-        {
+        ) {
             Icon(
                 imageVector = Icons.Default.Face,
                 contentDescription = "Face",
@@ -165,4 +159,3 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
         }
     }
 }
-
